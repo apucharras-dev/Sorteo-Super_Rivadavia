@@ -29,10 +29,6 @@
       <main class="main">
         <section class="panel upload-panel" id="upload-panel">
           <h2>Cargar participantes</h2>
-          <p class="hint">
-            Subí un archivo <strong>.txt</strong> (un usuario por línea) o
-            <strong>.xlsx / .xls</strong> (columna con usuarios de Instagram).
-          </p>
 
           <div class="upload-row">
             <label class="btn btn-primary" for="file-input">
@@ -48,7 +44,7 @@
           </div>
 
           <p class="stats" id="stats" hidden>
-            <span id="participant-count">0</span> participantes válidos cargados
+            <span id="participant-count">0</span> participantes
           </p>
 
           <button
@@ -75,6 +71,10 @@
       <footer class="footer">
         <p>Super Rivadavia · Sorteo exclusivo</p>
       </footer>
+    </div>
+
+    <div class="countdown-overlay" id="countdown-overlay" hidden aria-live="polite">
+      <span class="countdown-number" id="countdown-number"></span>
     </div>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>

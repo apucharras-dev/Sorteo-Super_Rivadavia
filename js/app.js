@@ -10,9 +10,17 @@ const winnersPanel = document.getElementById("winners-panel");
 const winnersList = document.getElementById("winners-list");
 const btnReset = document.getElementById("btn-reset");
 const uploadPanel = document.getElementById("upload-panel");
+const countdownOverlay = document.getElementById("countdown-overlay");
+const countdownNumber = document.getElementById("countdown-number");
+const pageEl = document.querySelector(".page");
 
 /** @type {string[]} */
 let participants = [];
+let isDrawing = false;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function showError(message) {
   errorEl.textContent = message;
@@ -158,29 +166,65 @@ function renderWinners(winners) {
   winnersPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
+async function playCountdown() {
+  countdownOverlay.hidden = false;
+  for (const value of [3, 2, 1]) {
+    countdownNumber.textContent = String(value);
+    countdownNumber.classList.remove("pop");
+    void countdownNumber.offsetWidth;
+    countdownNumber.classList.add("pop");
+    await sleep(900);
+  }
+  countdownOverlay.hidden = true;
+  countdownNumber.classList.remove("pop");
+}
+
+function setDrawingState(active) {
+  isDrawing = active;
+  pageEl?.classList.toggle("is-drawing", active);
+  btnDraw.disabled = active || participants.length < WINNER_COUNT;
+  btnReset.disabled = active;
+  fileInput.disabled = active;
+}
+
 fileInput.addEventListener("change", () => {
   const file = fileInput.files?.[0];
   void handleFile(file);
 });
 
 btnDraw.addEventListener("click", () => {
+  if (isDrawing) return;
   showError("");
   if (participants.length < WINNER_COUNT) {
     showError(`Se necesitan al menos ${WINNER_COUNT} participantes.`);
     return;
   }
   const winners = pickWinners(participants, WINNER_COUNT);
-  renderWinners(winners);
+  winnersPanel.hidden = true;
+  winnersList.innerHTML = "";
+  setDrawingState(true);
+  void (async () => {
+    try {
+      await playCountdown();
+      renderWinners(winners);
+    } finally {
+      setDrawingState(false);
+    }
+  })();
 });
 
 btnReset.addEventListener("click", () => {
+  if (isDrawing) return;
   fileInput.value = "";
   participants = [];
   fileNameEl.textContent = "Ningún archivo seleccionado";
   statsEl.hidden = true;
   winnersPanel.hidden = true;
   winnersList.innerHTML = "";
+  countdownOverlay.hidden = true;
   showError("");
+  setDrawingState(false);
   btnDraw.disabled = true;
+  fileInput.disabled = false;
   uploadPanel.scrollIntoView({ behavior: "smooth" });
 });
