@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sorteo Super Rivadavia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <img
+          src="/logo.png"
+          alt="Super Rivadavia"
+          class="logo"
+          width="280"
+          height="auto"
+        />
+        <h1 class="title">Sorteo</h1>
+        <p class="subtitle">16 ganadores · Participantes vía Instagram</p>
+      </header>
+
+      <main class="main">
+        <section class="panel upload-panel" id="upload-panel">
+          <h2>Cargar participantes</h2>
+          <p class="hint">
+            Subí un archivo <strong>.txt</strong> (un usuario por línea) o
+            <strong>.xlsx / .xls</strong> (columna con usuarios de Instagram).
+          </p>
+
+          <div class="upload-row">
+            <label class="btn btn-primary" for="file-input">
+              Elegir archivo
+            </label>
+            <input
+              type="file"
+              id="file-input"
+              accept=".txt,.xlsx,.xls,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+              hidden
+            />
+            <span class="file-name" id="file-name">Ningún archivo seleccionado</span>
+          </div>
+
+          <p class="stats" id="stats" hidden>
+            <span id="participant-count">0</span> participantes válidos cargados
+          </p>
+
+          <button
+            type="button"
+            class="btn btn-draw"
+            id="btn-draw"
+            disabled
+          >
+            Realizar sorteo
+          </button>
+
+          <p class="error" id="error" role="alert" hidden></p>
+        </section>
+
+        <section class="panel winners-panel" id="winners-panel" hidden>
+          <h2>Ganadores</h2>
+          <ol class="winners-list" id="winners-list"></ol>
+          <button type="button" class="btn btn-secondary" id="btn-reset">
+            Nuevo sorteo
+          </button>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Super Rivadavia · Sorteo exclusivo</p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
