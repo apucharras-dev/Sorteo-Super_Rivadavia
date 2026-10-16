@@ -84,17 +84,6 @@ body {
   letter-spacing: 0.03em;
 }
 
-.hint {
-  margin: 0 0 1.25rem;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.hint strong {
-  color: var(--white);
-  font-weight: 700;
-}
-
 .upload-row {
   display: flex;
   flex-wrap: wrap;
@@ -247,4 +236,50 @@ body {
   .winners-list {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.countdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 28, 52, 0.92);
+  backdrop-filter: blur(4px);
+}
+
+.countdown-overlay[hidden] {
+  display: none !important;
+}
+
+.countdown-number {
+  font-size: clamp(5rem, 22vw, 9rem);
+  font-weight: 800;
+  color: var(--coral);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(255, 87, 87, 0.45);
+}
+
+.countdown-number.pop {
+  animation: countdownPop 0.55s ease;
+}
+
+@keyframes countdownPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.page.is-drawing {
+  pointer-events: none;
 }
